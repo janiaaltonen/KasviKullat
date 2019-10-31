@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "654820368992",
+    "firebase_url": "https://kasvikullat.firebaseio.com",
+    "project_id": "kasvikullat",
+    "storage_bucket": "kasvikullat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654820368992:android:5bb9a4b135cf61b4ded905",
+        "android_client_info": {
+          "package_name": "com.example.kasvikullat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "654820368992-jkgj037j1l1va09ivjqpecavg1ft5j6u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kasvikullat",
+            "certificate_hash": "1c228884cae12988e7cd4a2be110005ffcfcf21d"
+          }
+        },
+        {
+          "client_id": "654820368992-0s1ndlkjisjek8s90grq3fljbkfml4m3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSct5hoZ1vwW-vrziIPFhj8tmOJyjnj7M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "654820368992-0s1ndlkjisjek8s90grq3fljbkfml4m3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

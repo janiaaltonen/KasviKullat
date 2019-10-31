@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/change_photo"
+        android:title="Muuta kuvaa" />
+
+    <item
+        android:id="@+id/change_watering"
+        android:title="Kastelutiedot" />
+
+    <item
+        android:id="@+id/change_suns_drops"
+        android:title="Valo ja vesi" />
+
+</menu>

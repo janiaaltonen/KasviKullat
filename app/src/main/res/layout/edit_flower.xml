@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/editFlower_imageView_flower"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
+
+    <TextView
+        android:id="@+id/editFlower_textView_flowerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editFlower_imageView_flower"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/editFlower_textView_flowerName2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editFlower_imageView_flower"
+        android:layout_toRightOf="@+id/editFlower_textView_flowerName"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="italic"/>
+
+    <TextView
+        android:id="@+id/editFlower_textView_addWatering"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editFlower_textView_flowerName"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:text="Lisää tiedot, kuinka usein tarvitsen kastelua"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#0000e5" />
+
+    <LinearLayout
+        android:id="@+id/editFlower_linearLayout_showWatering"
+        android:layout_below="@id/editFlower_textView_flowerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/editFlower_textView_showWatering"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:text="AAAAAAAAAAAAAAAAA"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/editFlower_textView_changeWatering"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:text="Vaihda"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#0000e5"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/editFlower_linearLayout_suns"
+        android:layout_below="@+id/editFlower_textView_addWatering"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/image_sun1"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_sun" />
+
+        <ImageView
+            android:id="@+id/image_sun2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_sun"
+            android:alpha="0.5"/>
+
+        <ImageView
+            android:id="@+id/image_sun3"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_sun"
+            android:alpha="0.5"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/editFlower_linearLayout_drops"
+        android:layout_below="@+id/editFlower_linearLayout_suns"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp">
+
+        <ImageView
+            android:id="@+id/image_drop1"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_water_drop" />
+
+        <ImageView
+            android:id="@+id/image_drop2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_water_drop"
+            android:alpha="0.4"/>
+
+        <ImageView
+            android:id="@+id/image_drop3"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_water_drop"
+            android:alpha="0.4"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_change_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Muuta tietoja" />
+
+
+</RelativeLayout>

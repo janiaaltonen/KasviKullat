@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">KasviKullat</string>
+
+    <string name="next_watering_default">Kastelutietoja ei ole lisätty</string>
+</resources>

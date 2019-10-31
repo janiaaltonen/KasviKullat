@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/view_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_row_background"
+        android:layout_marginTop="3dp">
+
+        <ImageView
+            android:id="@+id/delete_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_delete" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/delete_icon"
+            android:text="DELETE"
+            android:textColor="#fff"
+            android:textSize="16dp"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/view_foreground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        app:cardBackgroundColor="#000000">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="0.5dp"
+            android:background="#ffffff">
+
+            <ImageView
+                android:id="@+id/imageView_flower"
+                android:layout_width="120dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:id="@+id/textView_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/imageView_flower"
+                android:text="Silkkimaija"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView_name2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@id/imageView_flower"
+                android:layout_below="@+id/textView_name"
+                android:text="Silkkimaija"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#000000"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/textView_nextWatering"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/imageView_flower"
+                android:layout_below="@+id/textView_name2"
+                android:text="Silkkimaija"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="#000000" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout_suns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/textView_nextWatering"
+                android:layout_toRightOf="@id/imageView_flower"
+                android:layout_marginTop="5dp">
+
+                <ImageView
+                    android:id="@+id/image_sun1"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_sun" />
+
+                <ImageView
+                    android:id="@+id/image_sun2"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_sun"
+                    android:alpha="0.5"/>
+
+                <ImageView
+                    android:id="@+id/image_sun3"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_sun"
+                    android:alpha="0.5"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_drops"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/textView_nextWatering"
+                android:layout_toRightOf="@id/linearLayout_suns"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:id="@+id/image_drop1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="29dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="2dp"
+                    android:src="@drawable/ic_water_drop" />
+
+                <ImageView
+                    android:id="@+id/image_drop2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="29dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="2dp"
+                    android:src="@drawable/ic_water_drop"
+                    android:alpha="0.4"/>
+
+                <ImageView
+                    android:id="@+id/image_drop3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="29dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="2dp"
+                    android:src="@drawable/ic_water_drop"
+                    android:alpha="0.4"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>
