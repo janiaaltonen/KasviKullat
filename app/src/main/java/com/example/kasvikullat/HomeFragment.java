@@ -77,20 +77,6 @@ public class HomeFragment extends Fragment implements RecyclerItemTouchHelper.Re
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
-       /* new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) { // int direction used if left or right swipe makes different things
-                adapter.cancelAlarm(viewHolder.getAdapterPosition());
-                adapter.deleteFlower(viewHolder.getAdapterPosition());
-            }
-        }).attachToRecyclerView(recyclerView); */
-
         adapter.setOnItemClickListener(new FlowerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
