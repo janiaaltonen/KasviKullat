@@ -139,6 +139,8 @@ public class AddWateringInfo extends AppCompatActivity {
         long interval = AlarmManager.INTERVAL_DAY * flower.getWateringFrequency();
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, requestCode, intent, 0);
 
+        alarmManager.cancel(pendingIntent);
+        // delete existing alarm
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), interval, pendingIntent);
         // change alarmManager to syncManager with FCM in some point to be more efficient
     }

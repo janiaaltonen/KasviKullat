@@ -134,10 +134,10 @@ public class HomeFragment extends Fragment implements RecyclerItemTouchHelper.Re
                 @Override
                 public void onDismissed(Snackbar transientBottomBar, int event) {
                     if (event != DISMISS_EVENT_ACTION) {
-                        // if flower is not restored, then the alarm will be cancelled
+                        // if the flower is not restored then the alarm will be cancelled
                         adapter.cancelAlarm(deletedFlower);
                         if (deletedFlower.getImageUrl() != null) {
-                            // if flower has ref to storage, then the image will be deleted
+                            // if flower has ref to storage then the image will be deleted
                             adapter.deleteFlowerImage(deletedFlower);
                         }
                     }
