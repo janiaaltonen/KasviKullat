@@ -83,24 +83,24 @@ public class FlowerAdapter extends FirestoreRecyclerAdapter<Flower, FlowerAdapte
         return new FlowerHolder(view);
     }
 
-    public void deleteFlower(final int position) {      // delete the image from FireBase Storage and if successful then the file from FireStore
-        Flower flower = getSnapshots().getSnapshot(position).toObject(Flower.class);
-        if (flower.getImageUrl() == null) {
-            getSnapshots().getSnapshot(position).getReference().delete();
-        } else {
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference imageRef = storage.getReferenceFromUrl(flower.getImageUrl());
-            imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    getSnapshots().getSnapshot(position).getReference().delete();
-                }
-            });
-        }
+    public void deleteFlower(final int position) {
+        // deletes the flower from firestore
+        getSnapshots().getSnapshot(position).getReference().delete();
     }
 
-    public void cancelAlarm(int position) {
-        Flower flower = getSnapshots().getSnapshot(position).toObject(Flower.class);
+    public void deleteFlowerImage(Flower flower) {
+        // deletes the flower's image from storage
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference imageRef = storage.getReferenceFromUrl(flower.getImageUrl());
+        imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // log
+            }
+        });
+    }
+
+    public void cancelAlarm(Flower flower) {
         String uniqueAction = flower.getName() + "," + flower.getCreatedAt(); // this unique action has to be same as in AddWateringInfo.class to delete correct alarm
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,7 +23,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-
+import com.google.firebase.firestore.QuerySnapshot;
 
 
 public class HomeFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
@@ -118,35 +121,44 @@ public class HomeFragment extends Fragment implements RecyclerItemTouchHelper.Re
     }
 
     @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+    public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof FlowerAdapter.FlowerHolder) {
-            // get the removed item name to display it in snack bar
-            String name = adapter.getSnapshots().getSnapshot(position).toObject(Flower.class).getName();
-
-            // backup of removed item for undo purpose
             final Flower deletedFlower = adapter.getSnapshots().getSnapshot(position).toObject(Flower.class);
-            final int deletedIndex = viewHolder.getAdapterPosition();
+            // backup of removed item for undo purpose
+            String name = deletedFlower.getName();
+            // get the removed item name to display it in snack bar
 
-            // remove the item from recyclerview and databases
             adapter.deleteFlower(viewHolder.getAdapterPosition());
-            //remove alarm
-            adapter.cancelAlarm(viewHolder.getAdapterPosition());
+            // remove the item from recyclerview and Firestore
 
 
-            Snackbar snackbar = Snackbar
+            final Snackbar snackbar = Snackbar
                     .make(view, name + " poistettu!", Snackbar.LENGTH_LONG);
             snackbar.setAction("PALAUTA", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // undo the delete and use previous final things
-                    // needs to be modified to flowerAdapter.class like others
-                    // public void restoreFlower() {} etc.
-                    //possible image has to restored as well..
                     flowerRef.add(deletedFlower);
+                    //restores the flower back to Firestore db
+
                 }
             });
             snackbar.setActionTextColor(Color.YELLOW);
+
+            snackbar.addCallback(new Snackbar.Callback() {
+                @Override
+                public void onDismissed(Snackbar transientBottomBar, int event) {
+                    if (event != DISMISS_EVENT_ACTION) {
+                        // if flower is not restored, then the alarm will be cancelled
+                        adapter.cancelAlarm(deletedFlower);
+                        if (deletedFlower.getImageUrl() != null) {
+                            // if flower has ref to storage, then the image will be deleted
+                            adapter.deleteFlowerImage(deletedFlower);
+                        }
+                    }
+                }
+            });
             snackbar.show();
+
         }
     }
 }
