@@ -10,14 +10,14 @@
         android:layout_marginLeft="10dp"
         android:text="Mikä päivä minut kastellaan seuraavaksi?" />
 
-    <EditText
-        android:id="@+id/addWateringInfo_editText_nextWatering"
+    <Button
+        android:id="@+id/addWateringInfo_datePickerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:hint="pp.kk.vvvv" />
+        android:text="Valitse päivä" />
 
     <TextView
         android:layout_width="match_parent"

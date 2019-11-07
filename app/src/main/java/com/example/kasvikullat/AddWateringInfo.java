@@ -1,6 +1,7 @@
 package com.example.kasvikullat;
 
 import android.app.AlarmManager;
+import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -8,37 +9,36 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.sql.Ref;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AddWateringInfo extends AppCompatActivity {
+public class AddWateringInfo extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private ArrayList<Integer> integers;
-    private int selectedFrequency;
+    private int selectedFrequency = 0;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String id;
     private String userUid;
-    private EditText date;
+    private String nextWateringDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.add_watering_info);
-        date =findViewById(R.id.addWateringInfo_editText_nextWatering);
 
         getSupportActionBar().setTitle("Kastelutiedot");
 
@@ -50,7 +50,7 @@ public class AddWateringInfo extends AppCompatActivity {
 
         initList();
         initSpinner();
-        initButton(flower);
+        initButtons(flower);
 
     }
 
@@ -71,11 +71,7 @@ public class AddWateringInfo extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-
-                if (position != 0) {
-                    selectedFrequency = position;
-                }
-
+                selectedFrequency = position;
             }
 
             @Override
@@ -85,21 +81,33 @@ public class AddWateringInfo extends AppCompatActivity {
         });
     }
 
-    private void initButton(final Flower flower) {
-        if (flower.getNextWateringDate() != null) {
-            date.setText(flower.getNextWateringDate());
-        }
+    private void initButtons(final Flower flower) {
+        Button datePicker = findViewById(R.id.addWateringInfo_datePickerButton);
+        datePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment datePicker = new DatePickerFragment();
+                datePicker.show(getSupportFragmentManager(), "datePicker");
+            }
+        });
         Button button = findViewById(R.id.button_add_watering_info);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateFlower(flower);
+                if (selectedFrequency > 0) {
+                    updateFlower(flower);
+                }
             }
         });
     }
 
+    @Override //called when date set in datePickerDialog
+    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+        month = month + 1;
+        nextWateringDate = dayOfMonth + "." + month + "." + year;
+    }
+
     private void updateFlower(Flower flower) {
-        String nextWateringDate = date.getText().toString();
         DocumentReference docRef = db.collection("users").document(userUid).collection("flowers").document(id);
         docRef.update("nextWateringDate", nextWateringDate);
         docRef.update("wateringFrequency", selectedFrequency);
