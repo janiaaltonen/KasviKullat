@@ -14,7 +14,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -26,11 +29,12 @@ import java.util.ArrayList;
 
 public class AddNewFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference flowerNamesRef = db.collection("flower_names");
+    private CollectionReference flowerNamesRef;
     private ArrayList<Flower> flowerNames;
     private String flowerName, flowerName2;
     FirebaseAuth mAuth;
     private String userUid;
+    private FlowerNameAdapter adapter;
 
     @Nullable
     @Override
@@ -41,58 +45,26 @@ public class AddNewFragment extends Fragment {
         userUid = mAuth.getCurrentUser().getUid();
 
 
-        initList(view);
-        initButton(view);
+        buildRecyclerView(view);
 
         return view;
     }
 
 
-    private void initList(final View view) {
-        flowerNames = new ArrayList<>();
+    private void buildRecyclerView(View view){
+        flowerNamesRef = db.collection("flower_names");
         Query query = flowerNamesRef.orderBy("name", Query.Direction.ASCENDING);
-        query.get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            Flower flower = documentSnapshot.toObject(Flower.class);
-                            flowerNames.add(flower);
-                        }
-                        initSpinner(view);
-                    }
-                });
-    }
-    private void initSpinner(View view) {
-        Spinner spinner = view.findViewById(R.id.spinner_flowerNames);
+        FirestoreRecyclerOptions<Flower> options = new FirestoreRecyclerOptions.Builder<Flower>()
+                .setQuery(query, Flower.class)
+                .build();
+        adapter = new FlowerNameAdapter(getActivity(), options);
 
-        FlowerNameAdapter adapter = new FlowerNameAdapter(getContext(), flowerNames);
-        spinner.setAdapter(adapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
-                Flower clickedFlower = (Flower) parent.getItemAtPosition(position);
-                flowerName = clickedFlower.getName();
-                flowerName2 = clickedFlower.getName2();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+        RecyclerView recyclerView = view.findViewById(R.id.flowerName_recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter);
     }
 
-    private void initButton(View view) {
-        Button button = view.findViewById(R.id.button_saveFlowerChoice);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveFlower();
-            }
-        });
-    }
 
     private void saveFlower() {
         long createdAt = System.currentTimeMillis() / 1000;
@@ -108,5 +80,17 @@ public class AddNewFragment extends Fragment {
 
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 }
