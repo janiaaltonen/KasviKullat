@@ -30,12 +30,12 @@ import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 
 
-public class EditFlower extends AppCompatActivity {
+public class EditFlower extends AppCompatActivity implements View.OnClickListener {
     private static final int PICK_IMAGE_REQUEST = 1;
-    ImageView flowerImage, sun2, sun3, drop2, drop3;
-    TextView flowerName, flowerName2, addWatering, showWateringDate, changeWatering;
-    LinearLayout showWatering, suns, drops;
-    Button changeInfo;
+    private ImageView flowerImage, sun2, sun3, drop2, drop3;
+    private TextView flowerName, flowerName2, addWatering, showWateringDate, changeWatering;
+    private LinearLayout showWatering, suns, drops;
+    private Button changeInfo;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private DocumentReference docRef;
     private Flower flower;
@@ -148,68 +148,15 @@ public class EditFlower extends AppCompatActivity {
     }
 
     private void setButtons() {
-        changeInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openFileChooser();
-            }
-        });
+        changeInfo.setOnClickListener(this);
 
         if (addWatering.getVisibility() == View.VISIBLE) {
-            addWatering.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startAddWateringInfo();
-                }
-            });
+            addWatering.setOnClickListener(this);
         } else {
-            changeWatering.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startAddWateringInfo();
-                }
-            });
+            changeWatering.setOnClickListener(this);
         }
-
-        suns.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int moduloBrightness = (flower.getNeedOfLight() + 1) % 3;
-
-                if(moduloBrightness == 1) {
-                    sun2.setAlpha(0.5f);
-                    sun3.setAlpha(0.5f);
-                } else if(moduloBrightness == 2) {
-                    sun2.setAlpha(1.0f);
-                } else {
-                    sun2.setAlpha(1.0f);
-                    sun3.setAlpha(1.0f);
-                    moduloBrightness = 3;
-                }
-                flower.setNeedOfLight(moduloBrightness);
-                docRef.update("needOfLight", moduloBrightness);
-            }
-        });
-
-        drops.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int moduloMoist = (flower.getNeedOfWater() + 1) % 3;
-
-                if (moduloMoist == 1) {
-                    drop2.setAlpha(0.4f);
-                    drop3.setAlpha(0.4f);
-                } else if(moduloMoist == 2) {
-                    drop2.setAlpha(1.0f);
-                } else {
-                    drop2.setAlpha(1.0f);
-                    drop3.setAlpha(1.0f);
-                    moduloMoist = 3;
-                }
-                flower.setNeedOfWater(moduloMoist);
-                docRef.update("needOfWater", moduloMoist);
-            }
-        });
+        suns.setOnClickListener(this);
+        drops.setOnClickListener(this);
     }
 
     private void openFileChooser() {
@@ -291,5 +238,52 @@ public class EditFlower extends AppCompatActivity {
         Gson gson = new Gson();
         String json = gson.toJson(flower);
         editor.putString(FLOWER, json).apply();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.button_change_info:
+                openFileChooser();
+                break;
+
+            case R.id.editFlower_textView_addWatering | R.id.editFlower_textView_changeWatering:
+                startAddWateringInfo();
+                break;
+
+            case R.id.editFlower_linearLayout_suns:
+                int moduloBrightness = (flower.getNeedOfLight() + 1) % 3;
+
+                if(moduloBrightness == 1) {
+                    sun2.setAlpha(0.5f);
+                    sun3.setAlpha(0.5f);
+                } else if(moduloBrightness == 2) {
+                    sun2.setAlpha(1.0f);
+                } else {
+                    sun2.setAlpha(1.0f);
+                    sun3.setAlpha(1.0f);
+                    moduloBrightness = 3;
+                }
+                flower.setNeedOfLight(moduloBrightness);
+                docRef.update("needOfLight", moduloBrightness);
+                break;
+
+            case R.id.editFlower_linearLayout_drops:
+                int moduloMoist = (flower.getNeedOfWater() + 1) % 3;
+
+                if (moduloMoist == 1) {
+                    drop2.setAlpha(0.4f);
+                    drop3.setAlpha(0.4f);
+                } else if(moduloMoist == 2) {
+                    drop2.setAlpha(1.0f);
+                } else {
+                    drop2.setAlpha(1.0f);
+                    drop3.setAlpha(1.0f);
+                    moduloMoist = 3;
+                }
+                flower.setNeedOfWater(moduloMoist);
+                docRef.update("needOfWater", moduloMoist);
+                break;
+        }
     }
 }
