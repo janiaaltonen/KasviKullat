@@ -70,8 +70,10 @@ public class EditFlower extends AppCompatActivity {
 
         docRef = db.collection("users").document(userUid).collection("flowers").document(id);
 
-        getSupportActionBar().setTitle(flower.getName());
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(flower.getName());
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         initViews();
         setViews();
