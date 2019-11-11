@@ -1,8 +1,11 @@
 package com.example.kasvikullat;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +16,12 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
 
 public class HomeFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
@@ -33,6 +31,8 @@ public class HomeFragment extends Fragment implements RecyclerItemTouchHelper.Re
     private FlowerAdapter adapter;
     private View view;
     private FirebaseAuth mAuth;
+    private static final String SHARED_PREFS = "sharedPrefs";
+    private static final String FLOWER_ID = "flowerId";
 
     @Nullable
     @Override
@@ -41,20 +41,8 @@ public class HomeFragment extends Fragment implements RecyclerItemTouchHelper.Re
 
         mAuth = FirebaseAuth.getInstance();
         userUid = mAuth.getCurrentUser().getUid();
+
         buildRecyclerView();
-
-        FloatingActionButton fab = view.findViewById(R.id.fab_home);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("userUID", userUid);
-                Fragment fragment = new AddNewFragment();
-                fragment.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
-            }
-        });
-
 
         return view;
     }
@@ -83,9 +71,11 @@ public class HomeFragment extends Fragment implements RecyclerItemTouchHelper.Re
                 Flower flower = documentSnapshot.toObject(Flower.class);
                 String id = documentSnapshot.getId();
 
+                SharedPreferences sharedPref = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(FLOWER_ID, id).apply();
+
                 Intent intent = new Intent(getActivity(), EditFlower.class);
-                intent.putExtra("Id", id);
-                intent.putExtra("userUID", userUid);
                 intent.putExtra("Flower", flower);
                 startActivity(intent);
             }

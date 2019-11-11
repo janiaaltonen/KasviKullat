@@ -55,7 +55,7 @@ public class FlowerAdapter extends FirestoreRecyclerAdapter<Flower, FlowerAdapte
         int brightness = flower.getNeedOfLight();
         if(brightness == 2) {
             flowerHolder.sun2.setAlpha(1.0f);
-        } else if (brightness == 0) {
+        } else if (brightness == 3) {
             flowerHolder.sun2.setAlpha(1.0f);
             flowerHolder.sun3.setAlpha(1.0f);
         } else {
@@ -66,7 +66,7 @@ public class FlowerAdapter extends FirestoreRecyclerAdapter<Flower, FlowerAdapte
         int moist = flower.getNeedOfWater();
         if(moist == 2) {
             flowerHolder.drop2.setAlpha(1.0f);
-        } else if (moist == 0) {
+        } else if (moist == 3) {
             flowerHolder.drop2.setAlpha(1.0f);
             flowerHolder.drop3.setAlpha(1.0f);
         } else {

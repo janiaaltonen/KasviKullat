@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -28,6 +29,7 @@ public class AddNewFragment extends Fragment {
     private CollectionReference flowerNamesRef = db.collection("flower_names");
     private ArrayList<Flower> flowerNames;
     private String flowerName, flowerName2;
+    FirebaseAuth mAuth;
     private String userUid;
 
     @Nullable
@@ -35,9 +37,9 @@ public class AddNewFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new, container, false);
 
-        if (getArguments() != null) {
-            userUid = getArguments().getString("userUID");
-        }
+        mAuth = FirebaseAuth.getInstance();
+        userUid = mAuth.getCurrentUser().getUid();
+
 
         initList(view);
         initButton(view);

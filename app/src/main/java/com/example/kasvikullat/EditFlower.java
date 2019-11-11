@@ -2,6 +2,7 @@ package com.example.kasvikullat;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
 
 
 public class EditFlower extends AppCompatActivity {
@@ -39,30 +41,44 @@ public class EditFlower extends AppCompatActivity {
     private Flower flower;
     private String userUid;
     private String id;
-    private FirebaseAuth mAuth;
     private Uri imageUri;
     private StorageReference storageRef = FirebaseStorage.getInstance().getReference("flower_images");
+    private SharedPreferences sharedPref;
+    private static final String SHARED_PREFS = "sharedPrefs";
+    private static final String FLOWER_ID = "flowerId";
+    private static final String FLOWER = "flower";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_flower);
 
-        mAuth = FirebaseAuth.getInstance();
-        userUid = mAuth.getCurrentUser().getUid();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            userUid = mAuth.getCurrentUser().getUid();
+        }
+        sharedPref = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        id = sharedPref.getString(FLOWER_ID, "");
 
         Intent intent = getIntent();
-        id = intent.getStringExtra("Id");
         flower = intent.getParcelableExtra("Flower");
+        if (flower == null) {
+            Gson gson = new Gson();
+            String json = sharedPref.getString(FLOWER, "");
+            flower = gson.fromJson(json, Flower.class);
+        }
 
         docRef = db.collection("users").document(userUid).collection("flowers").document(id);
 
         getSupportActionBar().setTitle(flower.getName());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        initViews();
+        setViews();
+        setButtons();
+    }
 
-
-
+    private void initViews() {
         flowerImage = findViewById(R.id.editFlower_imageView_flower);
         flowerName = findViewById(R.id.editFlower_textView_flowerName);
         flowerName2 = findViewById(R.id.editFlower_textView_flowerName2);
@@ -70,6 +86,7 @@ public class EditFlower extends AppCompatActivity {
         showWatering = findViewById(R.id.editFlower_linearLayout_showWatering);
         showWateringDate = findViewById(R.id.editFlower_textView_showWatering);
         changeWatering = findViewById(R.id.editFlower_textView_changeWatering);
+        changeInfo = findViewById(R.id.button_change_info);
 
         suns = findViewById(R.id.editFlower_linearLayout_suns);
         sun2 = findViewById(R.id.image_sun2);
@@ -78,10 +95,6 @@ public class EditFlower extends AppCompatActivity {
         drops = findViewById(R.id.editFlower_linearLayout_drops);
         drop2 = findViewById(R.id.image_drop2);
         drop3 = findViewById(R.id.image_drop3);
-
-
-        setViews();
-        initButtons();
     }
 
     private void setViews() {
@@ -104,15 +117,13 @@ public class EditFlower extends AppCompatActivity {
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) suns.getLayoutParams();
             layoutParams.addRule(RelativeLayout.BELOW, showWatering.getId());
 
-            initButtons();
         }
 
         // set correct amount of "bright" suns
         int brightness = flower.getNeedOfLight();
         if(brightness == 2) {
             sun2.setAlpha(1.0f);
-        }
-        if (brightness == 0) {
+        } else if (brightness == 3) {
             sun2.setAlpha(1.0f);
             sun3.setAlpha(1.0f);
         }
@@ -121,8 +132,7 @@ public class EditFlower extends AppCompatActivity {
         int moist = flower.getNeedOfWater();
         if(moist == 2) {
             drop2.setAlpha(1.0f);
-        }
-        if (moist == 0) {
+        } else if (moist == 3) {
             drop2.setAlpha(1.0f);
             drop3.setAlpha(1.0f);
         }
@@ -135,8 +145,7 @@ public class EditFlower extends AppCompatActivity {
         return nextWatering;
     }
 
-    private void initButtons() {
-        changeInfo = findViewById(R.id.button_change_info);
+    private void setButtons() {
         changeInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,46 +153,46 @@ public class EditFlower extends AppCompatActivity {
             }
         });
 
-        addWatering.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(EditFlower.this, AddWateringInfo.class);
-                intent.putExtra("Id", id);
-                intent.putExtra("UserUID", userUid);
-                intent.putExtra("Flower", flower);
-                startActivity(intent);
-            }
-        });
-
-        changeWatering.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(EditFlower.this, AddWateringInfo.class);
-                intent.putExtra("Id", id);
-                intent.putExtra("UserUID", userUid);
-                intent.putExtra("Flower", flower);
-                startActivity(intent);
-            }
-        });
+        if (addWatering.getVisibility() == View.VISIBLE) {
+            addWatering.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(EditFlower.this, AddWateringInfo.class);
+                    intent.putExtra("Id", id);
+                    intent.putExtra("UserUID", userUid);
+                    intent.putExtra("Flower", flower);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            changeWatering.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(EditFlower.this, AddWateringInfo.class);
+                    intent.putExtra("Id", id);
+                    intent.putExtra("UserUID", userUid);
+                    intent.putExtra("Flower", flower);
+                    startActivity(intent);
+                }
+            });
+        }
 
         suns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int brightness = flower.getNeedOfLight() + 1;
-                int moduloBrightness = brightness % 3;
+                int moduloBrightness = (flower.getNeedOfLight() + 1) % 3;
 
                 if(moduloBrightness == 1) {
                     sun2.setAlpha(0.5f);
                     sun3.setAlpha(0.5f);
-                    flower.setNeedOfLight(brightness);
                 } else if(moduloBrightness == 2) {
                     sun2.setAlpha(1.0f);
-                    flower.setNeedOfLight(brightness);
                 } else {
                     sun2.setAlpha(1.0f);
                     sun3.setAlpha(1.0f);
-                    flower.setNeedOfLight(brightness);
+                    moduloBrightness = 3;
                 }
+                flower.setNeedOfLight(moduloBrightness);
                 docRef.update("needOfLight", moduloBrightness);
             }
         });
@@ -191,21 +200,19 @@ public class EditFlower extends AppCompatActivity {
         drops.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int moist = flower.getNeedOfWater() + 1;
-                int moduloMoist = moist % 3;
+                int moduloMoist = (flower.getNeedOfWater() + 1) % 3;
 
                 if (moduloMoist == 1) {
                     drop2.setAlpha(0.5f);
                     drop3.setAlpha(0.5f);
-                    flower.setNeedOfWater(moist);
                 } else if(moduloMoist == 2) {
                     drop2.setAlpha(1.0f);
-                    flower.setNeedOfWater(moist);
                 } else {
                     drop2.setAlpha(1.0f);
                     drop3.setAlpha(1.0f);
-                    flower.setNeedOfWater(moist);
+                    moduloMoist = 3;
                 }
+                flower.setNeedOfWater(moduloMoist);
                 docRef.update("needOfWater", moduloMoist);
             }
         });
@@ -272,5 +279,15 @@ public class EditFlower extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        sharedPref = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(flower);
+        editor.putString(FLOWER, json).apply();
     }
 }

@@ -19,10 +19,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" > </activity>
-        <activity android:name=".AddWateringInfo"> </activity>
         <activity android:name=".EditFlower"
-            android:parentActivityName=".MainActivity"> </activity>
-
+            android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".AddWateringInfo"
+            android:parentActivityName=".EditFlower"></activity>
         <receiver android:name=".AlertReceiver" />
     </application>
 
