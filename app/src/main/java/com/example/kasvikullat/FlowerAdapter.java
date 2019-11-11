@@ -70,8 +70,8 @@ public class FlowerAdapter extends FirestoreRecyclerAdapter<Flower, FlowerAdapte
             flowerHolder.drop2.setAlpha(1.0f);
             flowerHolder.drop3.setAlpha(1.0f);
         } else {
-            flowerHolder.drop2.setAlpha(0.5f);
-            flowerHolder.drop3.setAlpha(0.5f);
+            flowerHolder.drop2.setAlpha(0.4f);
+            flowerHolder.drop3.setAlpha(0.4f);
         }
 
     }

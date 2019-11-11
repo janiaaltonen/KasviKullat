@@ -101,7 +101,7 @@ public class EditFlower extends AppCompatActivity {
         Glide.with(this)
                 .load(flower.getImageUrl())
                 .error(R.drawable.ic_local_florist)
-                .centerInside()
+                .centerCrop()
                 .into(flowerImage);
 
         flowerName.setText(flower.getName());
@@ -195,8 +195,8 @@ public class EditFlower extends AppCompatActivity {
                 int moduloMoist = (flower.getNeedOfWater() + 1) % 3;
 
                 if (moduloMoist == 1) {
-                    drop2.setAlpha(0.5f);
-                    drop3.setAlpha(0.5f);
+                    drop2.setAlpha(0.4f);
+                    drop3.setAlpha(0.4f);
                 } else if(moduloMoist == 2) {
                     drop2.setAlpha(1.0f);
                 } else {

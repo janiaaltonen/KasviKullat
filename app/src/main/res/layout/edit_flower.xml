@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/editFlower_imageView_flower"
         android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="300dp"
+        android:contentDescription="@string/content_description_flower_image"/>
 
     <TextView
         android:id="@+id/editFlower_textView_flowerName"
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/editFlower_imageView_flower"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textStyle="bold" />
 
@@ -24,9 +24,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editFlower_imageView_flower"
-        android:layout_toRightOf="@+id/editFlower_textView_flowerName"
+        android:layout_toEndOf="@+id/editFlower_textView_flowerName"
         android:layout_marginTop="5dp"
-        android:paddingLeft="5dp"
+        android:layout_marginStart="5dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textStyle="italic"/>
 
@@ -36,8 +36,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/editFlower_textView_flowerName"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:text="Lisää tiedot, kuinka usein tarvitsen kastelua"
+        android:layout_marginStart="15dp"
+        android:text="@string/add_watering_details"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="#0000e5" />
 
@@ -54,8 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
-            android:text="AAAAAAAAAAAAAAAAA"
+            android:layout_marginStart="10dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="#000000" />
 
@@ -64,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:text="Vaihda"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="#0000e5"/>
@@ -84,27 +83,30 @@
             android:id="@+id/image_sun1"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/ic_sun" />
+            android:src="@drawable/ic_sun"
+            android:contentDescription="@string/content_description_drawable_sun"/>
 
         <ImageView
             android:id="@+id/image_sun2"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
             android:src="@drawable/ic_sun"
-            android:alpha="0.5"/>
+            android:alpha="0.5"
+            android:contentDescription="@string/content_description_drawable_sun"/>
 
         <ImageView
             android:id="@+id/image_sun3"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
             android:src="@drawable/ic_sun"
-            android:alpha="0.5"/>
+            android:alpha="0.5"
+            android:contentDescription="@string/content_description_drawable_sun"/>
 
     </LinearLayout>
 
@@ -120,29 +122,41 @@
             android:id="@+id/image_drop1"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/ic_water_drop" />
+            android:src="@drawable/ic_water_drop"
+            android:contentDescription="@string/content_description_drawable_water_drop"/>
 
         <ImageView
             android:id="@+id/image_drop2"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
             android:src="@drawable/ic_water_drop"
-            android:alpha="0.4"/>
+            android:alpha="0.4"
+            android:contentDescription="@string/content_description_drawable_water_drop"/>
 
         <ImageView
             android:id="@+id/image_drop3"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
             android:src="@drawable/ic_water_drop"
-            android:alpha="0.4"/>
+            android:alpha="0.4"
+            android:contentDescription="@string/content_description_drawable_water_drop"/>
 
     </LinearLayout>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:hint="Lisää muistiinpanoja..."
+        android:layout_below="@id/editFlower_linearLayout_drops"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"/>
 
     <Button
         android:id="@+id/button_change_info"
