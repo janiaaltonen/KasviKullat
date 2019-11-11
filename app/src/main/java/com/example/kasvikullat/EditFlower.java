@@ -101,7 +101,7 @@ public class EditFlower extends AppCompatActivity {
         Glide.with(this)
                 .load(flower.getImageUrl())
                 .error(R.drawable.ic_local_florist)
-                .centerCrop()
+                .centerInside()
                 .into(flowerImage);
 
         flowerName.setText(flower.getName());
@@ -157,22 +157,14 @@ public class EditFlower extends AppCompatActivity {
             addWatering.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(EditFlower.this, AddWateringInfo.class);
-                    intent.putExtra("Id", id);
-                    intent.putExtra("UserUID", userUid);
-                    intent.putExtra("Flower", flower);
-                    startActivity(intent);
+                    startAddWateringInfo();
                 }
             });
         } else {
             changeWatering.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(EditFlower.this, AddWateringInfo.class);
-                    intent.putExtra("Id", id);
-                    intent.putExtra("UserUID", userUid);
-                    intent.putExtra("Flower", flower);
-                    startActivity(intent);
+                    startAddWateringInfo();
                 }
             });
         }
@@ -279,6 +271,14 @@ public class EditFlower extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    private void startAddWateringInfo() {
+        Intent intent = new Intent(EditFlower.this, AddWateringInfo.class);
+        intent.putExtra("Id", id);
+        intent.putExtra("UserUID", userUid);
+        intent.putExtra("Flower", flower);
+        startActivity(intent);
     }
 
     @Override
