@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,7 +14,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginStart="10dp"
             android:text="Kasvisuomeksi"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textColor="#000"/>
 
         <TextView
@@ -24,7 +25,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginStart="5dp"
             android:text="Kasvisuomeksi"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="italic"
             android:textColor="#000"/>
 
