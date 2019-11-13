@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="bg_row_background">#fc0000</color>
+    <color name="colorButtonSaveFlower">#00cc99</color>
 </resources>

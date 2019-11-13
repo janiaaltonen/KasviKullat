@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:hint="Search from flowers..."/>
+            android:hint="Etsi kukkaa listasta..."/>
 
     </LinearLayout>
 
@@ -31,19 +31,13 @@
             android:padding="2dp"
             android:scrollbars="vertical"/>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/black_flower"
-            android:alpha="0.05"/>
-
     </FrameLayout>
 
     <Button
         android:id="@+id/button_save_fragment_new"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lisää Aloe vera"
+        android:text="Lisää kukka"
         android:enabled="false"
         android:layout_alignParentBottom="true" />
 

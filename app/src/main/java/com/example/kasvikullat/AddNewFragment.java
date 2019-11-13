@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -146,7 +147,8 @@ public class AddNewFragment extends Fragment implements FlowerNameAdapter.OnItem
         String text = "Lisää " + flowerName + " (" + flowerName2 + ")";
         buttonSave.setText(text);
         buttonSave.setEnabled(true);
-        ViewCompat.setBackgroundTintList(buttonSave, ContextCompat.getColorStateList(getActivity(), android.R.color.holo_green_dark));
+        ViewCompat.setBackgroundTintList(buttonSave, ContextCompat.getColorStateList(getActivity(), R.color.colorButtonSaveFlower));
+
     }
 
     @Override
