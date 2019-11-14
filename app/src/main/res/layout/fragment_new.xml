@@ -6,8 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="20dp"
-        android:layout_above="@+id/button_save_fragment_new">
-
+        android:layout_marginBottom="15dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/flowerName_recyclerView"
@@ -17,14 +16,6 @@
             android:scrollbars="vertical" />
 
     </FrameLayout>
-
-    <Button
-        android:id="@+id/button_save_fragment_new"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Lisää kukka"
-        android:enabled="false"
-        android:layout_alignParentBottom="true" />
 
 
 </RelativeLayout>
