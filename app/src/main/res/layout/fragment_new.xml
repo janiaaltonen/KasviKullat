@@ -2,34 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/linearLayout_fragment_new"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/editText_test"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:hint="Etsi kukkaa listasta..."/>
-
-    </LinearLayout>
-
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout_fragment_new"
-        android:layout_above="@+id/button_save_fragment_new"
-        android:layout_marginTop="5dp">
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_above="@+id/button_save_fragment_new">
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/flowerName_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="2dp"
-            android:scrollbars="vertical"/>
+            android:scrollbars="vertical" />
 
     </FrameLayout>
 

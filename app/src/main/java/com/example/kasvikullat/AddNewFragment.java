@@ -9,8 +9,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +25,7 @@ import android.widget.Toast;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
@@ -44,39 +49,19 @@ public class AddNewFragment extends Fragment implements FlowerNameAdapter.OnItem
     private String userUid;
     private RecyclerView recyclerView;
     private FlowerNameAdapter adapter;
-    EditText et;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new, container, false);
 
+        setHasOptionsMenu(true);
+
         mAuth = FirebaseAuth.getInstance();
         userUid = mAuth.getCurrentUser().getUid();
 
         buttonSave = view.findViewById(R.id.button_save_fragment_new);
         buttonSave.setOnClickListener(this);
-        et = view.findViewById(R.id.editText_test);
-        et.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.toString().trim().isEmpty()) {
-                    buildRecyclerView();
-                } else {
-                    filteredRecyclerView(editable.toString());
-                }
-            }
-        });
 
         recyclerView = view.findViewById(R.id.flowerName_recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -156,4 +141,38 @@ public class AddNewFragment extends Fragment implements FlowerNameAdapter.OnItem
     public void onClick(View view) {
         saveFlower();
     }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.action_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        androidx.appcompat.widget.SearchView searchView = (androidx.appcompat.widget.SearchView) searchItem.getActionView();
+
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE); //for the keyboard button
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.trim().isEmpty()) {
+                    buildRecyclerView();
+                }
+                else {
+                    filteredRecyclerView(newText);
+                }
+                return false;
+            }
+        });
+
+    }
+
+
+
+
 }
