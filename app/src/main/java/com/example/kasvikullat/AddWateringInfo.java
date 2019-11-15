@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AddWateringInfo extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class AddWateringInfo extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, NumberPickerDialog.NumberPickerDialogListener {
 
     private ArrayList<Integer> integers;
     private int selectedFrequency = 0;
@@ -37,6 +38,9 @@ public class AddWateringInfo extends AppCompatActivity implements DatePickerDial
 
         setContentView(R.layout.add_watering_info);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         getSupportActionBar().setTitle("Kastelutiedot");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -46,8 +50,7 @@ public class AddWateringInfo extends AppCompatActivity implements DatePickerDial
         Flower flower = intent.getParcelableExtra("Flower");
 
 
-        initList();
-        initSpinner();
+        //initList();
         initButtons(flower);
 
     }
@@ -60,24 +63,6 @@ public class AddWateringInfo extends AppCompatActivity implements DatePickerDial
         }
     }
 
-    private void initSpinner() {
-        Spinner spinner = findViewById(R.id.spinner_watering_info);
-
-        WateringInfoAdapter adapter = new WateringInfoAdapter(this, integers);
-        spinner.setAdapter(adapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                selectedFrequency = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-    }
 
     private void initButtons(final Flower flower) {
         Button datePicker = findViewById(R.id.addWateringInfo_datePickerButton);
@@ -95,6 +80,14 @@ public class AddWateringInfo extends AppCompatActivity implements DatePickerDial
                 if (selectedFrequency > 0) {
                     updateFlower(flower);
                 }
+            }
+        });
+
+        Button numberPicker = findViewById(R.id.addWateringInfo_numberPickerButton);
+        numberPicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openNumberPickerDialog();
             }
         });
     }
@@ -149,5 +142,15 @@ public class AddWateringInfo extends AppCompatActivity implements DatePickerDial
         // delete existing alarm
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), interval, pendingIntent);
         // change alarmManager to syncManager with FCM in some point to be more efficient
+    }
+
+    private void openNumberPickerDialog() {
+        NumberPickerDialog dialog = new NumberPickerDialog();
+        dialog.show(getSupportFragmentManager(), "numberPickerDialog");
+    }
+
+    @Override
+    public void onPositiveClicked(int value) {
+        selectedFrequency = value;
     }
 }

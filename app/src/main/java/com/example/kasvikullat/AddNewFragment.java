@@ -11,9 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,11 +35,16 @@ public class AddNewFragment extends Fragment implements FlowerNameAdapter.OnItem
     private String userUid;
     private RecyclerView recyclerView;
     private FlowerNameAdapter adapter;
+    private static final String APP_NAME = "KasviKullat";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new, container, false);
+
+        Toolbar toolbar = view.findViewById(R.id._collapsingToolbar);
+        toolbar.setTitle(APP_NAME);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         setHasOptionsMenu(true);
 

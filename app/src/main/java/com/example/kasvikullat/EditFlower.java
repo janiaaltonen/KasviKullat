@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -70,17 +72,15 @@ public class EditFlower extends AppCompatActivity implements View.OnClickListene
 
         docRef = db.collection("users").document(userUid).collection("flowers").document(id);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(flower.getName());
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
         initViews();
         setViews();
         setButtons();
     }
 
     private void initViews() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         flowerImage = findViewById(R.id.editFlower_imageView_flower);
         flowerName = findViewById(R.id.editFlower_textView_flowerName);
         flowerName2 = findViewById(R.id.editFlower_textView_flowerName2);
@@ -100,6 +100,11 @@ public class EditFlower extends AppCompatActivity implements View.OnClickListene
     }
 
     private void setViews() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(flower.getName());
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         Glide.with(this)
                 .load(flower.getImageUrl())
                 .error(R.drawable.ic_local_florist)
@@ -247,7 +252,11 @@ public class EditFlower extends AppCompatActivity implements View.OnClickListene
                 openFileChooser();
                 break;
 
-            case R.id.editFlower_textView_addWatering | R.id.editFlower_textView_changeWatering:
+            case R.id.editFlower_textView_addWatering:
+                startAddWateringInfo();
+                break;
+
+            case R.id.editFlower_textView_changeWatering:
                 startAddWateringInfo();
                 break;
 

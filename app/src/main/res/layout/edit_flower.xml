@@ -3,10 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/action_bar"
+        android:id="@+id/editFlower_appBar" />
+
     <ImageView
         android:id="@+id/editFlower_imageView_flower"
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:layout_below="@+id/editFlower_appBar"
         android:contentDescription="@string/content_description_flower_image"/>
 
     <TextView
