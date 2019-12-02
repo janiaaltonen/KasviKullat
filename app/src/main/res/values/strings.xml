@@ -2,7 +2,13 @@
     <string name="app_name">KasviKullat</string>
     <string name="next_watering_default">Kastelutietoja ei ole lisätty</string>
     <string name="add_watering_details">Lisää kastelutiedot</string>
+    <string name="row_space">|</string>
+    <string name="watering_info">Kastelutiedot</string>
+    <string name="next_date">Seuraava</string>
+    <string name="previous_date">Viimeisin</string>
+    <string name="change">Vaihda</string>
     <string name="content_description_flower_image">flower image</string>
     <string name="content_description_drawable_sun">sun icon</string>
     <string name="content_description_drawable_water_drop">water drop icon</string>
+
 </resources>

@@ -15,32 +15,39 @@
 
     <Button
         android:id="@+id/addWateringInfo_datePickerButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="Valitse päivä" />
+        android:text="Valitse seuraava kastelupäivä" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
-        android:text="Kuinka usein tarvitsen kastelua?" />
+        android:text="Kuinka monen päivän välein minut kastellaan?" />
 
     <Button
         android:id="@+id/addWateringInfo_numberPickerButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Valitse"/>
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="Valitse kastelutiheys"
+        android:enabled="false"/>
 
 
     <Button
         android:id="@+id/button_add_watering_info"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="30dp"
-        android:text="Tallenna" />
+        android:text="Tallenna tiedot"
+        android:enabled="false"/>
 
 </LinearLayout>

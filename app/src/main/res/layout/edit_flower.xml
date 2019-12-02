@@ -13,32 +13,12 @@
         android:layout_below="@+id/editFlower_appBar"
         android:contentDescription="@string/content_description_flower_image"/>
 
-    <TextView
-        android:id="@+id/editFlower_textView_flowerName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editFlower_imageView_flower"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="10dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/editFlower_textView_flowerName2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editFlower_imageView_flower"
-        android:layout_toEndOf="@+id/editFlower_textView_flowerName"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="5dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textStyle="italic"/>
 
     <TextView
         android:id="@+id/editFlower_textView_addWatering"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editFlower_textView_flowerName"
+        android:layout_below="@+id/editFlower_imageView_flower"
         android:layout_marginTop="5dp"
         android:layout_marginStart="15dp"
         android:text="@string/add_watering_details"
@@ -46,30 +26,86 @@
         android:textColor="#0000e5" />
 
     <LinearLayout
-        android:id="@+id/editFlower_linearLayout_showWatering"
-        android:layout_below="@id/editFlower_textView_flowerName"
-        android:layout_width="wrap_content"
+        android:id="@+id/editFlower_linearLayout_wateringInfo"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_below="@+id/editFlower_imageView_flower"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="15dp"
         android:visibility="gone">
 
-        <TextView
-            android:id="@+id/editFlower_textView_showWatering"
+        <TableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="10dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="#000000" />
+            android:background="@drawable/table_background" >
+
+            <TableRow
+                android:background="?android:colorBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                >
+
+                <TextView
+                    android:text="@string/watering_info" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:background="?android:colorBackground"
+                >
+
+                <TextView
+                    android:text="@string/next_date" />
+
+                <TextView
+                    android:text="@string/row_space"
+                    android:textColor="#000"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="2dp"/>
+
+                <TextView
+                    android:text="@string/previous_date"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="10dp"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:colorBackground"
+                android:layout_marginBottom="1dp">
+
+                <TextView
+                    android:id="@+id/editFlower_textView_nextWatering"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:text="@string/row_space"
+                    android:textColor="#000"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="2dp"/>
+
+                <TextView
+                    android:id="@+id/editFlower_textView_previousWatering"
+                    android:textStyle="bold" />
+
+            </TableRow>
+
+        </TableLayout>
 
         <TextView
             android:id="@+id/editFlower_textView_changeWatering"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="15dp"
-            android:text="Vaihda"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="50dp"
+            android:text="@string/change"
             android:textColor="#0000e5"/>
 
     </LinearLayout>

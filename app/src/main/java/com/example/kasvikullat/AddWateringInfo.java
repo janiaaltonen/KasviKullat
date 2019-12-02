@@ -6,12 +6,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.Spinner;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -20,17 +17,17 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AddWateringInfo extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, NumberPickerDialog.NumberPickerDialogListener {
+public class AddWateringInfo extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, NumberPickerDialog.NumberPickerDialogListener, View.OnClickListener {
 
-    private ArrayList<Integer> integers;
     private int selectedFrequency = 0;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private Button datePickerButton, saveButton, numberPickerButton;
     private String id;
     private String userUid;
     private String nextWateringDate;
+    private Flower flower;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,61 +44,37 @@ public class AddWateringInfo extends AppCompatActivity implements DatePickerDial
         Intent intent = getIntent();
         id = intent.getStringExtra("Id");
         userUid = intent.getStringExtra("UserUID");
-        Flower flower = intent.getParcelableExtra("Flower");
+        flower = intent.getParcelableExtra("Flower");
 
-
-        //initList();
-        initButtons(flower);
+        initButtons();
 
     }
 
-    private void initList() {
-        integers = new ArrayList<>();
 
-        for (int i = 0; i < 71; i++) {
-            integers.add(i);
-        }
-    }
+    private void initButtons() {
+        datePickerButton = findViewById(R.id.addWateringInfo_datePickerButton);
+        datePickerButton.setOnClickListener(this);
 
+        numberPickerButton = findViewById(R.id.addWateringInfo_numberPickerButton);
+        numberPickerButton.setOnClickListener(this);
 
-    private void initButtons(final Flower flower) {
-        Button datePicker = findViewById(R.id.addWateringInfo_datePickerButton);
-        datePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment datePicker = new DatePickerFragment();
-                datePicker.show(getSupportFragmentManager(), "datePicker");
-            }
-        });
-        Button button = findViewById(R.id.button_add_watering_info);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (selectedFrequency > 0) {
-                    updateFlower(flower);
-                }
-            }
-        });
-
-        Button numberPicker = findViewById(R.id.addWateringInfo_numberPickerButton);
-        numberPicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openNumberPickerDialog();
-            }
-        });
+        saveButton = findViewById(R.id.button_add_watering_info);
+        saveButton.setOnClickListener(this);
     }
 
     @Override //called when date set in datePickerDialog
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
         month = month + 1;
         nextWateringDate = dayOfMonth + "." + month + "." + year;
+        datePickerButton.setText(nextWateringDate);
+        numberPickerButton.setEnabled(true);
     }
 
     private void updateFlower(Flower flower) {
         DocumentReference docRef = db.collection("users").document(userUid).collection("flowers").document(id);
         docRef.update("nextWateringDate", nextWateringDate);
         docRef.update("wateringFrequency", selectedFrequency);
+
 
         flower.setNextWateringDate(nextWateringDate);
         flower.setWateringFrequency(selectedFrequency);
@@ -152,5 +125,26 @@ public class AddWateringInfo extends AppCompatActivity implements DatePickerDial
     @Override
     public void onPositiveClicked(int value) {
         selectedFrequency = value;
+        numberPickerButton.setText(String.valueOf(selectedFrequency));
+        saveButton.setEnabled(true);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.addWateringInfo_datePickerButton:
+                DialogFragment datePicker = new DatePickerFragment();
+                datePicker.show(getSupportFragmentManager(), "datePicker");
+                break;
+
+            case R.id.addWateringInfo_numberPickerButton:
+                openNumberPickerDialog();
+                break;
+
+            case R.id.button_add_watering_info:
+                updateFlower(flower);
+                break;
+        }
     }
 }
+

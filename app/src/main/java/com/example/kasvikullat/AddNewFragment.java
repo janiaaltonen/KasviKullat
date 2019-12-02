@@ -94,7 +94,7 @@ public class AddNewFragment extends Fragment implements FlowerNameAdapter.OnItem
         long createdAt = System.currentTimeMillis() / 1000;
 
         CollectionReference flowerRef = FirebaseFirestore.getInstance().collection("users").document(userUid).collection("flowers");
-        flowerRef.add(new Flower(flowerName, flowerName2, null, null, 0, 1, 1, createdAt));
+        flowerRef.add(new Flower(flowerName, flowerName2, null, null, 0, 1, 1, createdAt,null));
         Toast.makeText(getContext(), "Tiedot tallennettu", Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(getActivity(), MainActivity.class);

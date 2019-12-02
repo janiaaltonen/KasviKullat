@@ -35,7 +35,7 @@ import com.google.gson.Gson;
 public class EditFlower extends AppCompatActivity implements View.OnClickListener {
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageView flowerImage, sun2, sun3, drop2, drop3;
-    private TextView flowerName, flowerName2, addWatering, showWateringDate, changeWatering;
+    private TextView addWatering, showWateringDate, showPrevWateringDate, changeWatering;
     private LinearLayout showWatering, suns, drops;
     private Button changeInfo;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -82,11 +82,10 @@ public class EditFlower extends AppCompatActivity implements View.OnClickListene
         setSupportActionBar(toolbar);
 
         flowerImage = findViewById(R.id.editFlower_imageView_flower);
-        flowerName = findViewById(R.id.editFlower_textView_flowerName);
-        flowerName2 = findViewById(R.id.editFlower_textView_flowerName2);
         addWatering = findViewById(R.id.editFlower_textView_addWatering);
-        showWatering = findViewById(R.id.editFlower_linearLayout_showWatering);
-        showWateringDate = findViewById(R.id.editFlower_textView_showWatering);
+        showWatering = findViewById(R.id.editFlower_linearLayout_wateringInfo);
+        showWateringDate = findViewById(R.id.editFlower_textView_nextWatering);
+        showPrevWateringDate = findViewById(R.id.editFlower_textView_previousWatering);
         changeWatering = findViewById(R.id.editFlower_textView_changeWatering);
         changeInfo = findViewById(R.id.button_change_info);
 
@@ -101,7 +100,8 @@ public class EditFlower extends AppCompatActivity implements View.OnClickListene
 
     private void setViews() {
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(flower.getName());
+            String title = flower.getName() + " (" + flower.getName2() + ")";
+            getSupportActionBar().setTitle(title);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
@@ -111,14 +111,12 @@ public class EditFlower extends AppCompatActivity implements View.OnClickListene
                 .centerCrop()
                 .into(flowerImage);
 
-        flowerName.setText(flower.getName());
-        String name2 = "(" + flower.getName2() + ")";
-        flowerName2.setText(name2);
 
         if(flower.getNextWateringDate() != null) {
             addWatering.setVisibility(View.GONE);
             showWatering.setVisibility(View.VISIBLE);
             showWateringDate.setText(nextWatering());
+            showPrevWateringDate.setText(flower.getPreviousWateringDate());
 
             //next two lines insert the suns below showWatering. Otherwise would be mixed with the showWatering's text
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) suns.getLayoutParams();
@@ -149,6 +147,7 @@ public class EditFlower extends AppCompatActivity implements View.OnClickListene
     private String nextWatering() {
         String nextWatering = flower.nextWatering(flower.daysToWatering());
         docRef.update("nextWateringDate", flower.getNextWateringDate());
+        docRef.update("previousWateringDate", flower.getPreviousWateringDate());
         return nextWatering;
     }
 

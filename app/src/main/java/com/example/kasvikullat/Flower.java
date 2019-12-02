@@ -3,10 +3,6 @@ package com.example.kasvikullat;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -14,7 +10,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class Flower implements Parcelable {
-    private String name, name2, imageUrl, nextWateringDate;
+    private String name, name2, imageUrl, nextWateringDate, previousWateringDate;
     private long createdAt;
     private int wateringFrequency, needOfLight, needOfWater;
 
@@ -22,7 +18,7 @@ public class Flower implements Parcelable {
         //public no-arg constructor needed
     }
 
-    public Flower(String name, String name2, String imageUrl, String nextWateringDate, int wateringFrequency, int needOfLight, int needOfWater, long createdAt) {
+    public Flower(String name, String name2, String imageUrl, String nextWateringDate, int wateringFrequency, int needOfLight, int needOfWater, long createdAt, String previousWateringDate) {
         this.name = name;
         this.name2 = name2;
         this.imageUrl = imageUrl;
@@ -31,6 +27,7 @@ public class Flower implements Parcelable {
         this.needOfLight = needOfLight;
         this.needOfWater = needOfWater;
         this.createdAt = createdAt;
+        this.previousWateringDate = previousWateringDate;
 
     }
 
@@ -43,6 +40,7 @@ public class Flower implements Parcelable {
         wateringFrequency = in.readInt();
         needOfLight = in.readInt();
         needOfWater = in.readInt();
+        previousWateringDate = in.readString();
     }
 
     public static final Creator<Flower> CREATOR = new Creator<Flower>() {
@@ -105,6 +103,14 @@ public class Flower implements Parcelable {
         return createdAt;
     }
 
+    public String getPreviousWateringDate() {
+        return previousWateringDate;
+    }
+
+    public void setPreviousWateringDate(String previousWateringDate) {
+        this.previousWateringDate = previousWateringDate;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -120,6 +126,7 @@ public class Flower implements Parcelable {
         parcel.writeInt(wateringFrequency);
         parcel.writeInt(needOfLight);
         parcel.writeInt(needOfWater);
+        parcel.writeString(previousWateringDate);
     }
 
     public int daysToWatering() {
@@ -136,7 +143,7 @@ public class Flower implements Parcelable {
             Calendar cToday = Calendar.getInstance();
             Date dToday = formatter.parse(formatter.format(cToday.getTime()));
 
-            // calculates the the difference in days
+            // calculates the difference in days
             long difference = dNextWatering.getTime() - dToday.getTime();
             long days = TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS);
             daysToWatering = (int) days;
@@ -158,6 +165,11 @@ public class Flower implements Parcelable {
                     if (daysToWatering >= 0) {
                         negativeDaysToWatering = false;
                         setNextWateringDate(formatter.format(cNextWatering.getTime()));
+                        // previous wateringDate is one round before this
+                        // so decrement wateringFrequency amount of days from calendar will get the previous one
+                        cNextWatering.add(Calendar.DATE, -getWateringFrequency());
+                        //set the previousDate to previousWateringDate
+                        setPreviousWateringDate(formatter.format(cNextWatering.getTime()));
                     }
                     daysToAdd += getWateringFrequency();
                 }
@@ -174,11 +186,11 @@ public class Flower implements Parcelable {
         String nextWatering;
 
        if (daysToWatering == 0) {
-           nextWatering = "Seuraava kastelupäivä: TÄNÄÄN";
+           nextWatering = "TÄNÄÄN";
        } else if (daysToWatering == 1) {
-           nextWatering = "Seuraava kastelupäivä: HUOMENNA";
+           nextWatering = "HUOMENNA";
        } else {
-           nextWatering = "Seuraava kastelupäivä: " + daysToWatering + " päivän päästä";
+           nextWatering = daysToWatering + " päivän päästä";
        }
 
        return nextWatering;
