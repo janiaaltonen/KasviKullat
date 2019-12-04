@@ -10,15 +10,16 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class Flower implements Parcelable {
-    private String name, name2, imageUrl, nextWateringDate, previousWateringDate;
+    private String name, name2, imageUrl, nextWateringDate, previousWateringDate, notes, nextFertilizingDate, previousFertilizingDate;
     private long createdAt;
-    private int wateringFrequency, needOfLight, needOfWater;
+    private int wateringFrequency, needOfLight, needOfWater, fertilizingFrequency;
 
     public Flower(){
         //public no-arg constructor needed
     }
 
-    public Flower(String name, String name2, String imageUrl, String nextWateringDate, int wateringFrequency, int needOfLight, int needOfWater, long createdAt, String previousWateringDate) {
+    public Flower(String name, String name2, String imageUrl, String nextWateringDate, int wateringFrequency,
+                  int needOfLight, int needOfWater, long createdAt, String previousWateringDate, String notes, String nextFertilizingDate, String previousFertilizingDate, int fertilizingFrequency) {
         this.name = name;
         this.name2 = name2;
         this.imageUrl = imageUrl;
@@ -28,6 +29,11 @@ public class Flower implements Parcelable {
         this.needOfWater = needOfWater;
         this.createdAt = createdAt;
         this.previousWateringDate = previousWateringDate;
+        this.notes = notes;
+        this.nextFertilizingDate = nextFertilizingDate;
+        this.previousFertilizingDate = previousFertilizingDate;
+        this.fertilizingFrequency = fertilizingFrequency;
+
 
     }
 
@@ -41,6 +47,10 @@ public class Flower implements Parcelable {
         needOfLight = in.readInt();
         needOfWater = in.readInt();
         previousWateringDate = in.readString();
+        notes = in.readString();
+        nextFertilizingDate = in.readString();
+        previousFertilizingDate = in.readString();
+        fertilizingFrequency = in.readInt();
     }
 
     public static final Creator<Flower> CREATOR = new Creator<Flower>() {
@@ -111,6 +121,38 @@ public class Flower implements Parcelable {
         this.previousWateringDate = previousWateringDate;
     }
 
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getNextFertilizingDate() {
+        return nextFertilizingDate;
+    }
+
+    public void setNextFertilizingDate(String nextFertilizingDate) {
+        this.nextFertilizingDate = nextFertilizingDate;
+    }
+
+    public String getPreviousFertilizingDate() {
+        return previousFertilizingDate;
+    }
+
+    public void setPreviousFertilizingDate(String previousFertilizingDate) {
+        this.previousFertilizingDate = previousFertilizingDate;
+    }
+
+    public int getFertilizingFrequency() {
+        return fertilizingFrequency;
+    }
+
+    public void setFertilizingFrequency(int fertilizingFrequency) {
+        this.fertilizingFrequency = fertilizingFrequency;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -127,6 +169,10 @@ public class Flower implements Parcelable {
         parcel.writeInt(needOfLight);
         parcel.writeInt(needOfWater);
         parcel.writeString(previousWateringDate);
+        parcel.writeString(notes);
+        parcel.writeString(nextFertilizingDate);
+        parcel.writeString(previousFertilizingDate);
+        parcel.writeInt(fertilizingFrequency);
     }
 
     public int daysToWatering() {

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -34,9 +35,11 @@ import com.google.gson.Gson;
 
 public class EditFlower extends AppCompatActivity implements View.OnClickListener {
     private static final int PICK_IMAGE_REQUEST = 1;
-    private ImageView flowerImage, sun2, sun3, drop2, drop3;
-    private TextView addWatering, showWateringDate, showPrevWateringDate, changeWatering;
-    private LinearLayout showWatering, suns, drops;
+    private ImageView flowerImage, sun2, sun3, drop2, drop3, settings;
+    private TextView addWatering, nextWateringDate, prevWateringDate,nextFertilizingDate,
+            prevFertilizingDate, addFertilizing;
+    private LinearLayout wateringDetails,fertilizingDetails, suns, drops;
+    private EditText notes;
     private Button changeInfo;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private DocumentReference docRef;
@@ -49,6 +52,7 @@ public class EditFlower extends AppCompatActivity implements View.OnClickListene
     private static final String SHARED_PREFS = "sharedPrefs";
     private static final String FLOWER_ID = "flowerId";
     private static final String FLOWER = "flower";
+    private static final String INFOTEXT = "Ei aiempia kastelukertoja";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,12 +86,28 @@ public class EditFlower extends AppCompatActivity implements View.OnClickListene
         setSupportActionBar(toolbar);
 
         flowerImage = findViewById(R.id.editFlower_imageView_flower);
-        addWatering = findViewById(R.id.editFlower_textView_addWatering);
-        showWatering = findViewById(R.id.editFlower_linearLayout_wateringInfo);
-        showWateringDate = findViewById(R.id.editFlower_textView_nextWatering);
-        showPrevWateringDate = findViewById(R.id.editFlower_textView_previousWatering);
-        changeWatering = findViewById(R.id.editFlower_textView_changeWatering);
-        changeInfo = findViewById(R.id.button_change_info);
+
+        settings = findViewById(R.id.settings);
+
+        //init watering details
+
+        addWatering = findViewById(R.id.editFlower_textView_addWateringInfo);
+        wateringDetails = findViewById(R.id.linearLayout_wateringDetails);
+        nextWateringDate = findViewById(R.id.editFlower_textView_nextWatering);
+        prevWateringDate = findViewById(R.id.editFlower_textView_previousWatering);
+
+
+        //init fertilizing details
+        if (flower.getNextFertilizingDate() == null) {
+            addFertilizing = findViewById(R.id.editFlower_textView_addFertilizingInfo);
+            addFertilizing.setVisibility(View.VISIBLE);
+        } else {
+            fertilizingDetails = findViewById(R.id.linearLayout_fertilizingDetails);
+            nextFertilizingDate = findViewById(R.id.editFlower_textView_nextFertilizing);
+            prevFertilizingDate = findViewById(R.id.editFlower_textView_previousFertilizing);
+        }
+
+
 
         suns = findViewById(R.id.editFlower_linearLayout_suns);
         sun2 = findViewById(R.id.image_sun2);
@@ -96,6 +116,8 @@ public class EditFlower extends AppCompatActivity implements View.OnClickListene
         drops = findViewById(R.id.editFlower_linearLayout_drops);
         drop2 = findViewById(R.id.image_drop2);
         drop3 = findViewById(R.id.image_drop3);
+
+        notes = findViewById(R.id.editFlower_notes);
     }
 
     private void setViews() {
@@ -113,16 +135,27 @@ public class EditFlower extends AppCompatActivity implements View.OnClickListene
 
 
         if(flower.getNextWateringDate() != null) {
+            wateringDetails.setVisibility(View.VISIBLE);
             addWatering.setVisibility(View.GONE);
-            showWatering.setVisibility(View.VISIBLE);
-            showWateringDate.setText(nextWatering());
-            showPrevWateringDate.setText(flower.getPreviousWateringDate());
-
-            //next two lines insert the suns below showWatering. Otherwise would be mixed with the showWatering's text
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) suns.getLayoutParams();
-            layoutParams.addRule(RelativeLayout.BELOW, showWatering.getId());
-
+            nextWateringDate.setText(nextWatering());
+            if (flower.getPreviousWateringDate() != null) {
+                prevWateringDate.setText(flower.getPreviousWateringDate());
+            } else {
+                prevWateringDate.setText(INFOTEXT);
+            }
         }
+
+        if(flower.getNextFertilizingDate() != null) {
+            fertilizingDetails.setVisibility(View.VISIBLE);
+            nextFertilizingDate.setText(nextWatering());
+            if (flower.getPreviousFertilizingDate() != null) {
+                prevFertilizingDate.setText(flower.getPreviousFertilizingDate());
+            } else {
+                prevWateringDate.setText(INFOTEXT);
+            }
+        }
+
+
 
         // set correct amount of "bright" suns
         int brightness = flower.getNeedOfLight();
@@ -141,6 +174,9 @@ public class EditFlower extends AppCompatActivity implements View.OnClickListene
             drop2.setAlpha(1.0f);
             drop3.setAlpha(1.0f);
         }
+        if (flower.getNotes() != null && flower.getNotes().length() != 0) {
+            notes.setText(flower.getNotes());
+        }
 
     }
 
@@ -152,15 +188,16 @@ public class EditFlower extends AppCompatActivity implements View.OnClickListene
     }
 
     private void setButtons() {
-        changeInfo.setOnClickListener(this);
 
         if (addWatering.getVisibility() == View.VISIBLE) {
             addWatering.setOnClickListener(this);
         } else {
-            changeWatering.setOnClickListener(this);
+            wateringDetails.setOnClickListener(this);
         }
         suns.setOnClickListener(this);
         drops.setOnClickListener(this);
+
+        settings.setOnClickListener(this);
     }
 
     private void openFileChooser() {
@@ -237,25 +274,31 @@ public class EditFlower extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onStop() {
         super.onStop();
+
+        String text = notes.getText().toString().trim();
+        flower.setNotes(text);
+        docRef.update("notes", text);
+
         sharedPref = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         Gson gson = new Gson();
         String json = gson.toJson(flower);
         editor.putString(FLOWER, json).apply();
+
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.button_change_info:
+           case R.id.settings:
                 openFileChooser();
                 break;
 
-            case R.id.editFlower_textView_addWatering:
+            case R.id.editFlower_textView_addWateringInfo:
                 startAddWateringInfo();
                 break;
 
-            case R.id.editFlower_textView_changeWatering:
+            case R.id.linearLayout_wateringDetails:
                 startAddWateringInfo();
                 break;
 
