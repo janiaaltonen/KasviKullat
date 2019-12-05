@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="30dp"
+    android:padding="5dp"
+    android:background="@drawable/rectangle_border"
+    android:layout_gravity="center_vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="KASTELUTIEDOT"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/editFlower_textView_addWateringInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aloita lisäämällä kastelutiedot" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout_wateringDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seuraava"
+                android:layout_marginRight="30dp" />
+
+            <TextView
+                android:id="@+id/editFlower_textView_nextWatering"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="14.päivän oäästä"
+                android:textStyle="bold"
+                android:layout_marginRight="30dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="#000" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edellinen" />
+
+            <TextView
+                android:id="@+id/editFlower_textView_previousWatering"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="14.päivän oäästä"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

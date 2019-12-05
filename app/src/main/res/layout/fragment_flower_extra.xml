@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="30dp"
+    android:padding="5dp"
+    android:background="@drawable/rectangle_border"
+    android:layout_gravity="center_vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VALON MÄÄRÄ" />
+
+        <LinearLayout
+            android:id="@+id/editFlower_linearLayout_suns"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/image_sun1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_sun"
+                android:contentDescription="@string/content_description_drawable_sun"/>
+
+            <ImageView
+                android:id="@+id/image_sun2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_sun"
+                android:alpha="0.5"
+                android:contentDescription="@string/content_description_drawable_sun"/>
+
+            <ImageView
+                android:id="@+id/image_sun3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_sun"
+                android:alpha="0.5"
+                android:contentDescription="@string/content_description_drawable_sun"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="25dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VEDEN MÄÄRÄ" />
+
+        <LinearLayout
+            android:id="@+id/editFlower_linearLayout_drops"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="7dp">
+
+            <ImageView
+                android:id="@+id/image_drop1"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_water_drop"
+                android:contentDescription="@string/content_description_drawable_water_drop"/>
+
+            <ImageView
+                android:id="@+id/image_drop2"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_water_drop"
+                android:alpha="0.4"
+                android:contentDescription="@string/content_description_drawable_water_drop"/>
+
+            <ImageView
+                android:id="@+id/image_drop3"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_water_drop"
+                android:alpha="0.4"
+                android:contentDescription="@string/content_description_drawable_water_drop"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

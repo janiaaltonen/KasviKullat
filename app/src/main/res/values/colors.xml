@@ -5,4 +5,5 @@
     <color name="colorAccent">#257614</color>
     <color name="bg_row_background">#fc0000</color>
     <color name="colorButtonSaveFlower">#00cc99</color>
+    <color name="white">#ffffff</color>
 </resources>

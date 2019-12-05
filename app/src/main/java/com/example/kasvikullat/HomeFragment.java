@@ -25,6 +25,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.gson.Gson;
 
 
 public class HomeFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
@@ -36,6 +37,8 @@ public class HomeFragment extends Fragment implements RecyclerItemTouchHelper.Re
     private FirebaseAuth mAuth;
     private static final String SHARED_PREFS = "sharedPrefs";
     private static final String FLOWER_ID = "flowerId";
+    private static final String FLOWER = "flower";
+    private static final String UUID = "uuid";
 
     @Nullable
     @Override
@@ -81,7 +84,12 @@ public class HomeFragment extends Fragment implements RecyclerItemTouchHelper.Re
 
                 SharedPreferences sharedPref = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString(FLOWER_ID, id).apply();
+
+                Gson gson = new Gson();
+                String json = gson.toJson(flower);
+                editor.putString(FLOWER_ID, id);
+                editor.putString(FLOWER, json);
+                editor.putString(UUID, userUid).apply();
 
                 Intent intent = new Intent(getActivity(), EditFlower.class);
                 intent.putExtra("Flower", flower);
