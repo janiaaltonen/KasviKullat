@@ -115,8 +115,6 @@ public class EditFlower extends AppCompatActivity implements View.OnClickListene
         adapter.addFragment(new FlowerExtraFragment());
 
         viewPager.setAdapter(adapter);
-        viewPager.measure(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
         tabLayout.setupWithViewPager(viewPager);
 
         for (int i = 0; i < tabIcons.length; i++) {

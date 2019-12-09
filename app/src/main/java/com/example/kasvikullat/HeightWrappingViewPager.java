@@ -8,7 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
+
 public class HeightWrappingViewPager extends ViewPager {
+    private View currentView;
 
     public HeightWrappingViewPager(@NonNull Context context) {
         super(context);
@@ -18,24 +20,25 @@ public class HeightWrappingViewPager extends ViewPager {
         super(context, attrs);
     }
 
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int mode = MeasureSpec.getMode(heightMeasureSpec);
-        // Unspecified means that the ViewPager is in a ScrollView WRAP_CONTENT.
-        // At Most means that the ViewPager is not in a ScrollView WRAP_CONTENT.
-        if(mode == MeasureSpec.UNSPECIFIED || mode == MeasureSpec.AT_MOST) {
-            // super has to be called in the beginning so the child views can be initialized.
+        if(currentView == null) {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-            int height = 0;
-            for (int i = 0; i < getChildCount(); i++) {
-                View child = getChildAt(i);
-                child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-                int h = child.getMeasuredHeight();
-                if (h > height) height = h;
-            }
-            heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+            return;
         }
-        // super has to be called again so the new specs are treated as exact measurements
+        int heigth = 0;
+        currentView.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+        int h = currentView.getMeasuredHeight();
+        if (h > heigth) heigth = h;
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec(heigth, MeasureSpec.EXACTLY);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
+
+    public void measureCurrentView(View currentView) {
+        this.currentView = currentView;
+        requestLayout();
+    }
+
+
 }
