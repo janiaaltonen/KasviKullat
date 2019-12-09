@@ -43,11 +43,18 @@
         app:tabBackground="@color/white"
         app:tabMode="fixed"/>
 
-    <com.example.kasvikullat.HeightWrappingViewPager
-        android:id="@+id/viewPager"
-        android:layout_below="@id/tabLayout"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/tabLayout"
+        android:layout_margin="20dp"
+        android:layout_marginBottom="5dp">
+
+        <com.example.kasvikullat.HeightWrappingViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </androidx.core.widget.NestedScrollView>
 
 </RelativeLayout>
