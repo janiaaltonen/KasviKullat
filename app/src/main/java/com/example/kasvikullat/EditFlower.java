@@ -89,7 +89,7 @@ public class EditFlower extends AppCompatActivity implements View.OnClickListene
         viewPager = findViewById(R.id.viewPager);
 
         tabIcons = new int[] {R.drawable.watering_can, R.drawable.fertilizing_bag,
-                                R.drawable.ic_info, R.drawable.ic_pen, R.drawable.ic_info};
+                                R.drawable.ic_info, R.drawable.notes, R.drawable.ic_info};
 
     }
 
@@ -121,7 +121,11 @@ public class EditFlower extends AppCompatActivity implements View.OnClickListene
             tabLayout.getTabAt(i).setIcon(tabIcons[i]);
         }
         // set the "start fragment" to overall info
-        viewPager.setCurrentItem(2);
+        // doesnt currently work
+        // think that webview doesn't load before the fragment height is measured??
+        //viewPager.setCurrentItem(2);
+
+        viewPager.setOffscreenPageLimit(2);
     }
 
 
