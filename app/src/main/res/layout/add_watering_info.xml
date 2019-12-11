@@ -7,6 +7,7 @@
         android:id="@+id/addWateringInfo_appBar" />
 
     <TextView
+        android:id="@+id/textView_when_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -25,6 +26,7 @@
         android:text="Valitse seuraava kastelupäivä" />
 
     <TextView
+        android:id="@+id/textView_how_often"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"

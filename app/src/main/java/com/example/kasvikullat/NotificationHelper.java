@@ -37,11 +37,20 @@ public class NotificationHelper extends ContextWrapper {
         return mManager;
     }
 
-    public NotificationCompat.Builder getChannelNotification(String content) {
-        String text = content + " tarvitsee kastelua tänään";
-        return new NotificationCompat.Builder(getApplicationContext(), channelID)
-                .setContentTitle("Kastelupäivä!")
-                .setContentText(text)
-                .setSmallIcon(R.drawable.ic_local_florist);
+    public NotificationCompat.Builder getChannelNotification(String content, int action) {
+        String text;
+        if (action == 1) {
+            text = content + " tarvitsee kastelua tänään";
+            return new NotificationCompat.Builder(getApplicationContext(), channelID)
+                    .setContentTitle("Kastelupäivä!")
+                    .setContentText(text)
+                    .setSmallIcon(R.drawable.ic_local_florist);
+        } else {
+            text = content + " tarvitsee lannoitusta tänään";
+            return new NotificationCompat.Builder(getApplicationContext(), channelID)
+                    .setContentTitle("Lannoituspäivä!")
+                    .setContentText(text)
+                    .setSmallIcon(R.drawable.ic_local_florist);
+        }
     }
 }

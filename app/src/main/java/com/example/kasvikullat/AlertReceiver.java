@@ -11,10 +11,13 @@ public class AlertReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String uniqueAction = intent.getAction();
         String [] uAction = uniqueAction.split(",");
-        String content = uAction[0];
-        int Id = Integer.parseInt(uAction[1]); // sets unique id for every notification (otherwise only one per day with only one flower that depends on FLAG -settings)
+        String content = uAction[1];
+        String sId = uAction[2] + uAction[0];
+        // sets unique id for every notification (otherwise only one per day with only one flower that depends on FLAG -settings)
+        int id = Integer.parseInt(sId);
+        int action = Integer.parseInt(uAction[0]);
         NotificationHelper notificationHelper = new NotificationHelper(context);
-        NotificationCompat.Builder nb = notificationHelper.getChannelNotification(content);
-        notificationHelper.getManager().notify(Id, nb.build());
+        NotificationCompat.Builder nb = notificationHelper.getChannelNotification(content, action);
+        notificationHelper.getManager().notify(id, nb.build());
     }
 }

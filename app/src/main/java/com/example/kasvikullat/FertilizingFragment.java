@@ -86,14 +86,20 @@ public class FertilizingFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-        startAddWateringInfo();
+        if (view.getId() == R.id.linearLayout_fertilizingDetails) {
+            startAddWateringInfo(4);
+        } else {
+            startAddWateringInfo(3);
+        }
+
     }
 
-    private void startAddWateringInfo() {
+    private void startAddWateringInfo(int request) {
         Intent intent = new Intent(getActivity(), AddWateringInfo.class);
         intent.putExtra("Id", docId);
         intent.putExtra("UserUID", userUid);
         intent.putExtra("Flower", flower);
+        intent.putExtra("Request", request);
         startActivity(intent);
     }
 

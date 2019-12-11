@@ -88,14 +88,19 @@ public class WateringFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        startAddWateringInfo();
+        if (view.getId() == R.id.linearLayout_wateringDetails) {
+            startAddWateringInfo(2);
+        } else {
+            startAddWateringInfo(1);
+        }
     }
 
-    private void startAddWateringInfo() {
+    private void startAddWateringInfo(int request) {
         Intent intent = new Intent(getActivity(), AddWateringInfo.class);
         intent.putExtra("Id", docId);
         intent.putExtra("UserUID", userUid);
         intent.putExtra("Flower", flower);
+        intent.putExtra("Request", request);
         startActivity(intent);
     }
 
